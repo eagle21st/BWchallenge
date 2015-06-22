@@ -1,0 +1,16 @@
+double-progress-arc text {
+	font-family: 'serif';
+}
+
+double-progress-arc text.percentage {
+	font-size: 3em;
+}
+
+double-progress-arc text.percentage tspan{
+	font-size: 0.5em;
+}
+
+double-progress-arc text.label {
+	font-size: 1.2em;
+	fill: #888888;
+}
