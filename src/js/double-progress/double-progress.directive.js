@@ -114,9 +114,11 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 				}
 
 				// validate scope data
-				if (0.0 <= scope.expected && 1.0 >= scope.expected && 0.0 <= scope.actual && 1.0 >= scope.actual) { 
+				if (0.0 < scope.expected && 1.0 >= scope.expected && 0.0 <= scope.actual && 1.0 >= scope.actual) { 
 					$timeout(render);
 					angular.element($window).bind('resize', render);
+				} else {
+					throw new Error('Invalid Progress Data');
 				}
 		}
 	}
