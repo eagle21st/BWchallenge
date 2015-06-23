@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="demoapp">
+	<head>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="./style.css" rel="stylesheet" type="text/css">
+		<script src="./bower_components/angular/angular.min.js"></script>
+		<script src="./double-progress.directive.min.js"></script>
+		<script>
+				var app = angular.module("demoapp", ['double-progress.directive']);
+		</script>
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-3">
+				<double-progress-arc expected='0.8' actual='1.0' />
+			</div>
+			<div class="col-md-3">
+				<double-progress-arc expected='0.8' actual='0.8' />
+			</div>
+			<div class="col-md-3">
+				<double-progress-arc expected='0.8' actual='0.6' />
+			</div>
+			<div class="col-md-3">
+				<double-progress-arc expected='0.8' actual='0.4' />
+			</div>
+		</div>
+	</body>
+</html>

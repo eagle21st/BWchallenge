@@ -1,0 +1,43 @@
+{
+  "name": "angular-d3-double-progress",
+  "version": "0.0.2",
+  "homepage": "https://github.com/eagle21st/BWchallenge",
+  "authors": [
+    "Yang Shu <eagle21st@gmail.com>"
+  ],
+  "description": "Double donut progress directive constructed with d3",
+  "main": "double-progress.directive.min.js",
+  "keywords": [
+    "d3",
+    "angular"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "examples",
+    "karma.conf.js",
+    "gulpfile.js"
+  ],
+  "dependencies": {
+    "angular": "~1.4.1"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.*"
+  },
+  "_release": "0.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.2",
+    "commit": "4bb943c0d664a6cdc26b8e8a2cc27855a100f0a0"
+  },
+  "_source": "git@github.com:eagle21st/BWchallenge.git",
+  "_target": "~0.0.2",
+  "_originalSource": "git@github.com:eagle21st/BWchallenge.git",
+  "_direct": true
+}
