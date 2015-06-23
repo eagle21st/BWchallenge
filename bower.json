@@ -18,7 +18,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src",
+    "examples",
+    "karma.conf.js",
+    "gulpfile.js"
   ],
   "dependencies": {
     "angular": "~1.4.1"
