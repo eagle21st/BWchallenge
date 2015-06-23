@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'dist/double-progress.directive.js',
+      'double-progress.directive.js',
       'test/*.js'
     ],
 
