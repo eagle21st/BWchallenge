@@ -1,5 +1,5 @@
 # Demo
-`http://eagle21st.github.io/BWchallenge`
+http://eagle21st.github.io/BWchallenge
 
 # Usage
 `bower install git@github.com:eagle21st/BWchallenge.git`
