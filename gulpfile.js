@@ -9,14 +9,14 @@ var karma = require('karma').server;
 var rebundle = function() {
   return gulp.src("src/js/double-progress/*.js")
     .pipe(browserify())
-    .pipe(gulp.dest("dist"))
+    .pipe(gulp.dest("./"))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest("dist"));
+    .pipe(gulp.dest("./"));
 };
 
 gulp.task("clean", function () {
-  return gulp.src('dist/*.js', {read: false})
+  return gulp.src('double-progress.*.*', {read: false})
     .pipe(clean());
 });
 

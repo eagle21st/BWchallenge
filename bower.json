@@ -1,12 +1,12 @@
 {
   "name": "angular-d3-double-progress",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "homepage": "https://github.com/eagle21st/BWchallenge",
   "authors": [
     "Yang Shu <eagle21st@gmail.com>"
   ],
   "description": "Double donut progress directive constructed with d3",
-  "main": "dist/double-progress.directive.min.js",
+  "main": "double-progress.directive.min.js",
   "keywords": [
     "d3",
     "angular"
