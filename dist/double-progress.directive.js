@@ -9533,8 +9533,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 
 				function render() {
 					d3.select(element[0]).select("svg").remove();
-
-					var width = element.parent()[0].clientWidth || attrs.width || 300,
+					var width = attrs.width || element.parent()[0].clientWidth || 300,
 						τ = 2 * Math.PI,
 						innerDifference = width / 30,
 						outerDifference = width / 80,
@@ -9554,7 +9553,6 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 					    .append("g")
 					    .attr("transform", "translate(" + width / 2 + "," + width / 2 + ")")
 
-				
 					var center = svg.append("circle")
 							.attr("r", circleRadius)
 					    	.style("fill", "#eeeeee");
@@ -9568,17 +9566,17 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 					createArc(expectedArcInnerRadius, 
 						expectedArcOuterRadius,
 						τ * scope.expected,
-						'chartreuse',
-						0.8);
+						COLOR.GREEN,
+						0.8, 'expected');
 
-					var actualColor = 'chartreuse';
+					var actualColor = COLOR.GREEN;
 
 					if (scope.actual < scope.expected) {
 						var diff = scope.expected - scope.actual;
 						if ((diff / scope.expected) < THRESHOLD.RED && (diff / scope.expected) >= THRESHOLD.ORANGE) {
-							actualColor = 'orange';
+							actualColor = COLOR.ORANGE;
 						} else if ((diff / scope.expected) >= THRESHOLD.RED) {
-							actualColor = 'red';
+							actualColor = COLOR.RED;
 						}
 					}
 
@@ -9586,7 +9584,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 						actualArcOuterRadius, 
 						τ * scope.actual,
 						actualColor,
-						1.0);
+						1.0, 'actual');
 				
 
 					function createText(yOffset, text, className) {
@@ -9596,11 +9594,10 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 							.attr("dy", ".35em")
 							.attr("text-anchor", "middle")
 							.attr("class", className)
-							.text(function(){return text})
-
+							.text(function(){return text});
 					}
 
-					function createArc(innerRadius, outerRadius, endAngle, color, opacity) {
+					function createArc(innerRadius, outerRadius, endAngle, color, opacity, className) {
 						if (endAngle === 0) return;
 						var arc = d3.svg.arc()
 					    		.innerRadius(innerRadius)
@@ -9609,6 +9606,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 
 						svg.append("path")
 					    	.datum({endAngle: 0})
+					    	.attr("class", className)
 					    	.style("fill", color)
 					    	.style("opacity", opacity)
 					    	.attr("d", arc)
@@ -9625,10 +9623,36 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 					}
 				}
 
+				var invalidProgressDataError = new Error('Invalid Progress Data');
 				// validate scope data
-				if (0.0 <= scope.expected && 1.0 >= scope.expected && 0.0 <= scope.actual && 1.0 >= scope.actual) { 
+				function validateAndFormatInput() {
+					if (!(scope.expected) || !(scope.actual)) return false;
+					if (typeof(scope.expected) === 'string') {
+						try {
+							scope.expected = parseFloat(scope.expected);
+						} catch (e) {
+							throw invalidProgressDataError;
+						}
+					}
+					if (typeof(scope.actual) === 'string') {
+						try {
+							scope.actual = parseFloat(scope.actual);
+						} catch (e) {
+							throw invalidProgressDataError;
+						}
+					}
+
+					scope.expected = parseFloat(scope.expected.toFixed(2));
+					scope.actual = parseFloat(scope.actual.toFixed(2));
+
+					return (0.0 < scope.expected && 1.0 >= scope.expected && 0.0 <= scope.actual && 1.0 >= scope.actual)
+				}
+
+				if (validateAndFormatInput()) {
 					$timeout(render);
 					angular.element($window).bind('resize', render);
+				} else {
+					throw invalidProgressDataError;
 				}
 		}
 	}
