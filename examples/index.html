@@ -10,33 +10,27 @@
 		</script>
 	</head>
 	<body>
-		<div class="row">
-			<div class="col-md-3">
-				<double-progress-arc expected='0.0' actual='0.0' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='0.0' actual='1.0' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='1.0' actual='0.0' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='1.0' actual='1.0' />
+		<div class="row" ng-controller="ProgressController">
+			<div class="col-md-3" ng-repeat="tuple in data">
+				<double-progress-arc expected="tuple.expected" actual="tuple.actual" />
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<double-progress-arc expected='0.8' actual='1.0' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='0.8' actual='0.8' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='0.8' actual='0.6' />
-			</div>
-			<div class="col-md-3">
-				<double-progress-arc expected='0.8' actual='0.4' />
-			</div>
-		</div>
+		<script type="text/javascript">
+			app.controller('ProgressController', ["$scope", "$interval", function($scope, $interval){
+				$scope.data = [
+					{expected: 0, actual: 0},
+					{expected: 0, actual: 1},
+					{expected: 1, actual: 0},
+					{expected: 1, actual: 1}
+				];
+
+				$interval(function() {
+					$scope.data.forEach(function(dataset){
+						dataset.expected = Math.random(1);
+						dataset.actual = Math.random(1);
+					})
+				}, 2000);
+			}]);
+		</script>
 	</body>
 </html>
