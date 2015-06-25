@@ -1,5 +1,5 @@
 module.exports = angular.module('double-progress.directive', [require('../d3/d3.service.js').name])
-	.directive('doubleProgressArc', ['d3', '$window', '$log', function(d3, $window, $log){
+	.directive('doubleProgressArc', ['d3', '$window', '$log', '$timeout', function(d3, $window, $log, $timeout){
 		"use strict";
 		return {
 			restrict: 'AE',
@@ -7,7 +7,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 				expected: '=',
 				actual: '='
 			},
-			template: '<div class="center"><h1 class="percentage">{{actual * 100}}<span>%</span></h1><h2>Progress</h2></div>',
+			template: '<div class="center"><h1 class="percentage">{{actual * 100 | number: 0}}<span>%</span></h1><h2>Progress</h2></div>',
 			link: function(scope, element, attrs) {
 				var THRESHOLD = {
 					RED: 0.5,
@@ -74,8 +74,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 					    	.attr("d", arc);
 
 					    function arcTween(path, arc, endAngle) {
-					    	if (endAngle === 0) return;
-
+					    	// if (endAngle === 0) return;
 					    	var color = COLOR.GREEN;
 
 							if (className === 'actual' && scope.actual < scope.expected) {
@@ -89,8 +88,7 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 								}
 							}
 
-					    	path
-					    		.transition()
+					    	path.transition()
 					    		.duration(750)
 					    		.style('fill', color)
 					    		.attrTween("d", function(d) {
@@ -112,22 +110,14 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 
 							if (!scope[name]) return logError();
 
-							if (typeof(scope[name]) === 'string') {
-								try {
-									scope[name] = parseFloat(scope[name]);
-								} catch (e) {
-									return logError();
-								}
+							if (parseFloat(scope[name]) === NaN) {
+								return logError();
+							} else {
+								scope[name] = parseFloat(scope[name]);
 							}
 
-							// format input
-							scope[name] = parseFloat(scope[name].toFixed(2));
-
-							if (name === 'expected') {
-								if (scope[name] > 0 && scope[name] <= 1) return true;
-							} else if (name === 'actual') {
-								if (scope[name] >= 0 && scope[name] <= 1) return true;
-							}
+							if (scope[name] >= 0 && scope[name] <= 1) return true;
+							
 							return logError();
 						}
 
@@ -135,14 +125,11 @@ module.exports = angular.module('double-progress.directive', [require('../d3/d3.
 				    		arcTween(path, arc, scope[className] * τ);
 				    	}
 
-				    	if (!rendered) {
-				    		// only register watch once
-						    scope.$watch(className, function(newVal, oldVal) {
-						    	if (newVal !== oldVal && validateAndFormatInput(className)) {
-						    		arcTween(path, arc, newVal * τ);
-						    	}
-						    });
-						}
+					    scope.$watch(className, function(newVal, oldVal) {
+					    	if (newVal !== oldVal && validateAndFormatInput(className)) {
+					    		arcTween(path, arc, newVal * τ);
+					    	}
+					    });
 					}
 				}
 
